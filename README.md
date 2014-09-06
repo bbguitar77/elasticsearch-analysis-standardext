@@ -4,13 +4,23 @@ ElasticSearch Analysis Extensible Standard Tokenizer
 Introduction
 ------------
 
-Currently, when using Lucene's StandardTokenizer, there is no convenient way to customize the word boundary property values for various Unicode characters (e.g. '#', '@', '+', etc.). As a result, most of these characters are treated as word boundary breaks, which can prove problematic for surfacing exact matches.
+This plugin features an extension of Lucene's StandardTokenizer that allows the user to customize the word boundary property values for any Unicode character. 
 
-For instance, using the default StandardTokenizer, the following tweet - "@ericschmidt google+ rocks #social" - produces the following tokens - {"ericschmidt", "google", "rocks", "social"}. So, a user who wants to see only content with "#social" will be unable to do so - they will match on all content containing the term 'social' (since '#social' and 'social' produce the same search token).
+Currently, Lucene's StandardTokenizer implements the word break rules from the [http://www.unicode.org/reports/tr29/#Word_Boundaries](Unicode Text Segmentation) algorithm. It provides no mechanism to override the word break rules for various Unicode characters (e.g. '#', '@', '+', etc.). This is problematic because most punctuation characters are treated as hard word boundary breaks, which can lead to inaccurate results at querying time.
 
-Currently, the only partial solution is to leverage ElasticSearch's mapping char filter (which is run before tokenization), where you could map characters like '@', '#', etc. to other characters that aren't treated as word boundary breaks (e.g. '_'). But, it's a hacky solution at best ... you can't map all the characters to the same destination character as then you wouldn't be able to distinguish between them at query time ('@user' -> '_user', '#user' -> '_user'). In addition, this would alter the source of the stored document field and prevent you from showing accurate highlighted text snippets.
+A simple example can prove this point. For instance, consider the following tweet:
 
-So, to solve this problem, this plugin provides an extension to the StandardTokenizer and allows the user to customize the word boundary rules for any Unicode character.
+    @ericschmidt google+ rocks #social
+
+Using the default StandardTokenizer, this tweet will produce the following tokens:
+
+    "ericschmidt", "google", "rocks", "social"
+
+That might look fine, but essentially we have lost the ability to do exact matching on tweets containing "#social" (i.e. hashtag social). Since "#social" is tokenized to "social", when a user runs an exact search on "#social", they will get matches on all tweets that have the term social (with or without the hashtag). Obviously, this is not what the user will be expecting.
+
+Currently, the only _partial_ solution is to leverage ElasticSearch's [http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/analysis-mapping-charfilter.html](mapping char filter). This filter gets run before tokenization and allows the user to replace any arbitrary sequence of characters with the given mapping. So, in our previous example, we could map characters like '@', '+', and '#' to a destination character that is not treated as a word boundary break (e.g. '_'). But, it's a bit of a hack and in our example you wouldn't want to map '@' and '#' to the same character (or else, we wouldn't be able to distinguish between mentions and hashtag terms at query time). Also, using the mapping char filter has other possible side-effets too (e.g. highlighting accuracy)
+
+What we want is to be able to leverage all the goodness of Lucene's StandardTokenizer (which does a TON for us), but just be able to override the default word boundary rules for any paricular Unicode character (most likely - special punctation symbols that are becoming more meaningful in the Web). This is what this plugin strives to do...
 
 Requirements
 ------------
@@ -68,16 +78,16 @@ License
 
 Elasticsearch Extensible Standard Tokenizer Plugin
 
-Copyright 2014 Bryan Warner
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
