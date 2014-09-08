@@ -80,17 +80,17 @@ public class ExtensibleStandardTokenizerFactory extends AbstractTokenizerFactory
     WBProperty property = WBProperty.valueOf(mapping);
     switch (property) {
       case SQ:
-        return ExtensibleStandardTokenizerImpl.WB_VALUE_SINGLE_QUOTE;
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_SINGLE_QUOTE;
       case DQ:
-        return ExtensibleStandardTokenizerImpl.WB_VALUE_DOUBLE_QUOTE;
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_DOUBLE_QUOTE;
       case EXNL:
-        return ExtensibleStandardTokenizerImpl.WB_VALUE_EXTENDED_NUM_LETTER;
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_EXTENDED_NUM_LETTER;
       case MNL:
-        return ExtensibleStandardTokenizerImpl.WB_VALUE_MID_NUMBER_LETTER;
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_MID_NUMBER_LETTER;
       case MN:
-        return ExtensibleStandardTokenizerImpl.WB_VALUE_MID_NUMBER;
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_MID_NUMBER;
       case ML:
-        return ExtensibleStandardTokenizerImpl.WB_VALUE_MID_LETTER;
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_MID_LETTER;
       default:
         throw new IllegalArgumentException();
     }

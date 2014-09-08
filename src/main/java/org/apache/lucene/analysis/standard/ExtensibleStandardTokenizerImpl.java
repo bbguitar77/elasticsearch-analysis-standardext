@@ -65,13 +65,19 @@ public final class ExtensibleStandardTokenizerImpl implements StandardTokenizerI
      0, 0
   };
 
-  public static final Character WB_VALUE_BREAK = '\0';
-  public static final Character WB_VALUE_SINGLE_QUOTE = '\212';
-  public static final Character WB_VALUE_DOUBLE_QUOTE = '\213';
-  public static final Character WB_VALUE_EXTENDED_NUM_LETTER = '\205';
-  public static final Character WB_VALUE_MID_NUMBER_LETTER = '\204';
-  public static final Character WB_VALUE_MID_NUMBER = '\203';
-  public static final Character WB_VALUE_MID_LETTER = '\202';
+  /**
+   * Word Boundary "character classes" that are used in the ZZ_CMAP_PACKED
+   * string
+   */
+  public static final Character WB_CLASS_BREAK               = '\0';
+  public static final Character WB_CLASS_LETTER              = '\176';
+  public static final Character WB_CLASS_NUMERIC             = '\200';
+  public static final Character WB_CLASS_MID_LETTER          = '\202';
+  public static final Character WB_CLASS_MID_NUMBER          = '\203';
+  public static final Character WB_CLASS_MID_NUMBER_LETTER   = '\204';
+  public static final Character WB_CLASS_EXTENDED_NUM_LETTER = '\205';
+  public static final Character WB_CLASS_SINGLE_QUOTE        = '\212';
+  public static final Character WB_CLASS_DOUBLE_QUOTE        = '\213';
 
   /**
    * Translates characters to character classes

@@ -18,7 +18,7 @@ public class ExtensibleStandardTokenizerTest {
     char[] charz = new char[] { '#', '@', '+', '-', '_' };
     final Map<Character, Character> characterMappings = new HashMap<>();
     for (char chr : charz)
-      characterMappings.put(chr, ExtensibleStandardTokenizerImpl.WB_VALUE_EXTENDED_NUM_LETTER);
+      characterMappings.put(chr, ExtensibleStandardTokenizerImpl.WB_CLASS_EXTENDED_NUM_LETTER);
 
     for (char chr : charz) {
       final String input = String.format(f_text, args(3, chr));
