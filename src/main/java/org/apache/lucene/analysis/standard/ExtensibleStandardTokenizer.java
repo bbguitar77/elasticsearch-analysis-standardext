@@ -170,16 +170,16 @@ public final class ExtensibleStandardTokenizer extends Tokenizer {
   }
 
   private final void init(Version matchVersion, Map<Character, Character> characterMappings) {
-    if (matchVersion.onOrAfter(Version.LUCENE_4_7)) {
+    if (matchVersion.onOrAfter(Version.LUCENE_47)) {
       this.scanner = new ExtensibleStandardTokenizerImpl(input, characterMappings);
     }
-    else if (matchVersion.onOrAfter(Version.LUCENE_4_0)) {
+    else if (matchVersion.onOrAfter(Version.LUCENE_40)) {
       this.scanner = new StandardTokenizerImpl40(input);
     }
-    else if (matchVersion.onOrAfter(Version.LUCENE_3_4)) {
+    else if (matchVersion.onOrAfter(Version.LUCENE_34)) {
       this.scanner = new StandardTokenizerImpl34(input);
     }
-    else if (matchVersion.onOrAfter(Version.LUCENE_3_1)) {
+    else if (matchVersion.onOrAfter(Version.LUCENE_31)) {
       this.scanner = new StandardTokenizerImpl31(input);
     }
     else {
