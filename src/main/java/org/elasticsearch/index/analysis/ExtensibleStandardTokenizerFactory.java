@@ -73,16 +73,16 @@ public class ExtensibleStandardTokenizerFactory extends AbstractTokenizerFactory
   }
 
   public static enum WBProperty {
-    SQ, DQ, EXNL, MNL, MN, ML
+    L, N, EXNL, MNL, MN, ML, SQ, DQ
   }
 
   private Character translateWordBoundary(String mapping) throws IllegalArgumentException {
     WBProperty property = WBProperty.valueOf(mapping);
     switch (property) {
-      case SQ:
-        return ExtensibleStandardTokenizerImpl.WB_CLASS_SINGLE_QUOTE;
-      case DQ:
-        return ExtensibleStandardTokenizerImpl.WB_CLASS_DOUBLE_QUOTE;
+      case L:
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_LETTER;
+      case N:
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_NUMERIC;
       case EXNL:
         return ExtensibleStandardTokenizerImpl.WB_CLASS_EXTENDED_NUM_LETTER;
       case MNL:
@@ -91,6 +91,10 @@ public class ExtensibleStandardTokenizerFactory extends AbstractTokenizerFactory
         return ExtensibleStandardTokenizerImpl.WB_CLASS_MID_NUMBER;
       case ML:
         return ExtensibleStandardTokenizerImpl.WB_CLASS_MID_LETTER;
+      case SQ:
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_SINGLE_QUOTE;
+      case DQ:
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_DOUBLE_QUOTE;
       default:
         throw new IllegalArgumentException();
     }
