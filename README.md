@@ -34,6 +34,16 @@ Compatibility
 Usage
 ------------
 
+In order to install the plugin, simply run the following command from your Elasticsearch home directory: 
+
+    bin/plugin -install analysis-standard-ext -url http://dl.bintray.com/bbguitar77/maven/elasticsearch-analysis-standardext-VERSION.zip
+
+where @VERSION@ is the version of the plugin from the compatibility table. For example, to install version @0.1@ run:
+
+    bin/plugin -install analysis-standard-ext -url http://dl.bintray.com/bbguitar77/maven/elasticsearch-analysis-standardext-0.1.zip
+
+The extensible StandardTokenizer is registered unded the tokenizer name "standard_ext" and requires a mapping property. The LHS (left-hand side) of each mapping entry is a single character value. The RHS of each mapping entry is the word-boundary property type you wish to assign to the character on the left.
+
 	{
     	"index":{
         	"analysis":{
@@ -59,8 +69,6 @@ Usage
            	}
         }
     }
-
-The extensible StandardTokenizer is registered unded the tokenizer name "standard_ext" and requires a mapping property. The LHS (left-hand side) of each mapping entry is a single character value. The RHS of each mapping entry is the word-boundary property type you wish to assign to the character on the left.
 
 The supported word-boundary property types are:
  * L    -> A Letter
