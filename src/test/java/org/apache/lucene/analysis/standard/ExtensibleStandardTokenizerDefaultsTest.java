@@ -9,6 +9,10 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.util.Version;
 import org.junit.Test;
 
+/**
+ * Testing the default word boundary characteristics for many of the punctuation
+ * characters in the ASCII Unicode set
+ */
 public class ExtensibleStandardTokenizerDefaultsTest {
 
   @Test
@@ -27,7 +31,7 @@ public class ExtensibleStandardTokenizerDefaultsTest {
     String f_text = "%sfoo%sbar%s";
     char[] charz = new char[] { '\'' };
     for (char chr : charz) {
-      final String input = String.format(f_text, chr, chr, chr);
+      final String input = String.format(f_text, args(3, chr));
       final String[] expected = { "foo'bar" };
       TestHelper.assertTokens(createExtensibleStandardTokenizer(input), expected);
     }
@@ -38,7 +42,7 @@ public class ExtensibleStandardTokenizerDefaultsTest {
     String f_text = "%sfoo%sbar%s";
     char[] charz = new char[] { '"' };
     for (char chr : charz) {
-      final String input = String.format(f_text, chr, chr, chr);
+      final String input = String.format(f_text, args(3, chr));
       final String[] expected = { "foo", "bar" };
       TestHelper.assertTokens(createExtensibleStandardTokenizer(input), expected);
     }
@@ -51,7 +55,7 @@ public class ExtensibleStandardTokenizerDefaultsTest {
     // preserved between letters
     for (char chr : charz) {
       final String input = String.format(f_text, args(6, chr));
-      final String[] expected = { String.format("foo%sbar", chr), "123", "456" };
+      final String[] expected = { "foo" + chr + "bar", "123", "456" };
       TestHelper.assertTokens(createExtensibleStandardTokenizer(input), expected);
     }
   }
@@ -63,7 +67,7 @@ public class ExtensibleStandardTokenizerDefaultsTest {
     // preserved between numbers
     for (char chr : charz) {
       final String input = String.format(f_text, args(6, chr));
-      final String[] expected = { "foo", "bar", String.format("123%s456", chr) };
+      final String[] expected = { "foo", "bar", "123" + chr + "456" };
       TestHelper.assertTokens(createExtensibleStandardTokenizer(input), expected);
     }
   }
@@ -75,7 +79,7 @@ public class ExtensibleStandardTokenizerDefaultsTest {
     // preserved between numbers & letters
     for (char chr : charz) {
       final String input = String.format(f_text, args(6, chr));
-      final String[] expected = { String.format("foo%sbar", chr), String.format("123%s456", chr) };
+      final String[] expected = { "foo" + chr + "bar", "123" + chr + "456" };
       TestHelper.assertTokens(createExtensibleStandardTokenizer(input), expected);
     }
   }
@@ -87,7 +91,7 @@ public class ExtensibleStandardTokenizerDefaultsTest {
     // preserved at the beginning, middle, and end of alpha-numeric characters
     for (char chr : charz) {
       final String input = String.format(f_text, chr, chr, chr);
-      final String[] expected = { input };
+      final String[] expected = { input }; // e.g. _foo_bar_
       TestHelper.assertTokens(createExtensibleStandardTokenizer(input), expected);
     }
   }
