@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.elasticsearch</groupId>
 	<artifactId>elasticsearch-analysis-standardext</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<description>Extension of Lucene's Standard Tokenizer that supports custom character mappings to override default 
 				 word break property values (as defined by the Unicode Text Annex #29 - Default Word Boundary specification)</description>
