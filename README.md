@@ -22,8 +22,11 @@ Currently, the only _partial_ solution is to leverage ElasticSearch's [http://ww
 
 What we want is to be able to leverage all the goodness of Lucene's StandardTokenizer (which does a TON for us), but just be able to override the default word boundary rules for any paricular Unicode character (most likely - special punctation symbols that are becoming more meaningful in the Web). This is what this plugin strives to do...
 
-Requirements
+Compatibility
 ------------
+
+|_. Extensible StandardTokenizer Plugin   |_.  Elasticsearch    |
+| 0.1         |  1.1 -> master   |
 
  * Lucene 4.7+
  * ElasticSearch 1.1+
@@ -60,13 +63,14 @@ Usage
 The extensible StandardTokenizer is registered unded the tokenizer name "standard_ext" and requires a mapping property. The LHS (left-hand side) of each mapping entry is a single character value. The RHS of each mapping entry is the word-boundary property type you wish to assign to the character on the left.
 
 The supported word-boundary property types are:
-
- * SQ   -> Single-quote
- * DQ   -> Double-quote
+ * L    -> A Letter
+ * N    -> Numeric
  * EXNL -> Extended Number Letter (preserved at start, middle, end of alpha-numeric characters - e.g. '_')
  * MNL  -> Mid Number Letter (preserved between alpha-numeric characters - e.g. '.')
  * MN   -> Mid Number (preserved between numerics - e.g. ',')
  * ML   -> Mid Letter (preserved between letters - e.g. ':')
+ * SQ   -> Single-quote
+ * DQ   -> Double-quote
 
 Author Information
 ==================
