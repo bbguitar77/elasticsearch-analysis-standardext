@@ -25,11 +25,15 @@ What we want is to be able to leverage all the goodness of Lucene's StandardToke
 Installation
 ------------
 
-=================  ===========  =================  =============================================================================================================================================================================================
-ES version         Plugin       Release date       Command
------------------  -----------  -----------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-1.1 -> Master      0.1          Sep 8, 2014        ./bin/plugin --install analysis-standard-ext --url http://dl.bintray.com/bbguitar77/maven/org/elasticsearch/elasticsearch-analysis-standardext/0.1/elasticsearch-analysis-standardext-0.1.zip
-=================  ===========  =================  =============================================================================================================================================================================================
+In order to install the plugin, simply run:
+
+    ./bin/plugin --install analysis-standard-ext --url http://dl.bintray.com/bbguitar77/maven/org/elasticsearch/elasticsearch-analysis-standardext/0.1/elasticsearch-analysis-standardext-0.1.zip
+
+You need to install a version matching your Elasticsearch version:
+
+|   ElasticSearch   |  Plugin  |   Release date   |
+|-------------------|----------|------------------|
+| es-1.1 -> Master  |    0.1   |   Sep 8, 2014    |
 
 Usage
 ------------
