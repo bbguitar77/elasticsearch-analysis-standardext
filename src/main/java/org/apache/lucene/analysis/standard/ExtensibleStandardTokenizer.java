@@ -1,5 +1,3 @@
-package org.apache.lucene.analysis.standard;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
@@ -16,6 +14,9 @@ package org.apache.lucene.analysis.standard;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.apache.lucene.analysis.standard;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Collections;
@@ -61,6 +62,7 @@ import org.apache.lucene.util.Version;
  * {@link ClassicTokenizer} for backwards compatibility.
  * </ul>
  */
+
 @SuppressWarnings("deprecation")
 public final class ExtensibleStandardTokenizer extends Tokenizer {
   /** A private instance of the JFlex-constructed scanner */
@@ -120,7 +122,14 @@ public final class ExtensibleStandardTokenizer extends Tokenizer {
    * than this is skipped.
    */
   public void setMaxTokenLength(int length) {
+    if (length < 1) {
+      throw new IllegalArgumentException("maxTokenLength must be greater than zero");
+    }
     this.maxTokenLength = length;
+    if (scanner instanceof StandardTokenizerImpl) {
+      scanner.setBufferSize(Math.min(length, 1024 * 1024)); // limit buffer size
+                                                            // to 1M chars
+    }
   }
 
   /** @see #setMaxTokenLength */
@@ -138,6 +147,29 @@ public final class ExtensibleStandardTokenizer extends Tokenizer {
    *
    *          See http://issues.apache.org/jira/browse/LUCENE-1068
    */
+  public ExtensibleStandardTokenizer(Reader input) {
+    this(Version.LATEST, input);
+  }
+
+  /**
+   * Creates a new instance of the {@link ExtensibleStandardTokenizer} with the
+   * given character translation mappings to override default word boundary
+   * rules
+   *
+   * @param input
+   *          The input reader
+   * @param characterMappings
+   *          Character translation mappings
+   */
+  public ExtensibleStandardTokenizer(Version matchVersion, Reader input, Map<Character, Character> characterMappings) {
+    super(input);
+    init(matchVersion, characterMappings);
+  }
+
+  /**
+   * @deprecated Use {@link #StandardTokenizer(Reader)}
+   */
+  @Deprecated
   public ExtensibleStandardTokenizer(Version matchVersion, Reader input) {
     super(input);
     init(matchVersion);
@@ -145,24 +177,19 @@ public final class ExtensibleStandardTokenizer extends Tokenizer {
 
   /**
    * Creates a new StandardTokenizer with a given
-   * {@link org.apache.lucene.util.AttributeSource.AttributeFactory}
+   * {@link org.apache.lucene.util.AttributeFactory}
    */
-  public ExtensibleStandardTokenizer(Version matchVersion, AttributeFactory factory, Reader input) {
-    super(factory, input);
-    init(matchVersion);
+  public ExtensibleStandardTokenizer(AttributeFactory factory, Reader input) {
+    this(Version.LATEST, factory, input);
   }
 
   /**
-   * Creates a new PluggableStandardTokenizer with a given
-   * {@link org.apache.lucene.util.AttributeSource.AttributeFactory} and custom
-   * character mappings
-   *
-   * <p>
-   * In addition,
+   * @deprecated Use {@link #StandardTokenizer(AttributeFactory, Reader)}
    */
-  public ExtensibleStandardTokenizer(Version matchVersion, Reader input, Map<Character, Character> characterMappings) {
-    super(input);
-    init(matchVersion, characterMappings);
+  @Deprecated
+  public ExtensibleStandardTokenizer(Version matchVersion, AttributeFactory factory, Reader input) {
+    super(factory, input);
+    init(matchVersion);
   }
 
   private final void init(Version matchVersion) {
@@ -170,16 +197,16 @@ public final class ExtensibleStandardTokenizer extends Tokenizer {
   }
 
   private final void init(Version matchVersion, Map<Character, Character> characterMappings) {
-    if (matchVersion.onOrAfter(Version.LUCENE_47)) {
+    if (matchVersion.onOrAfter(Version.LUCENE_4_7)) {
       this.scanner = new ExtensibleStandardTokenizerImpl(input, characterMappings);
     }
-    else if (matchVersion.onOrAfter(Version.LUCENE_40)) {
+    else if (matchVersion.onOrAfter(Version.LUCENE_4_0)) {
       this.scanner = new StandardTokenizerImpl40(input);
     }
-    else if (matchVersion.onOrAfter(Version.LUCENE_34)) {
+    else if (matchVersion.onOrAfter(Version.LUCENE_3_4)) {
       this.scanner = new StandardTokenizerImpl34(input);
     }
-    else if (matchVersion.onOrAfter(Version.LUCENE_31)) {
+    else if (matchVersion.onOrAfter(Version.LUCENE_3_1)) {
       this.scanner = new StandardTokenizerImpl31(input);
     }
     else {

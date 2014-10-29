@@ -31,9 +31,10 @@ In order to install the plugin, simply run:
 
 You need to install a version matching your Elasticsearch version:
 
-|   ElasticSearch   |  Plugin  |   Release date   |
-|-------------------|----------|------------------|
-| es-1.1 -> Master  |    0.1   |   Sep 8, 2014    |
+|   ElasticSearch       |    Plugin   |   Release date   |
+|-----------------------|-------------|------------------|
+| es-1.4.x -> master    |    master   |         -        |
+| es-1.1   -> es-1.3.x  |     0.1     |   Sep 8, 2014    |
 
 Usage
 ------------
