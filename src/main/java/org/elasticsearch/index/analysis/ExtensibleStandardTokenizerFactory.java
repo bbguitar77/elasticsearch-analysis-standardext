@@ -73,7 +73,7 @@ public class ExtensibleStandardTokenizerFactory extends AbstractTokenizerFactory
   }
 
   public static enum WBProperty {
-    L, N, EXNL, MNL, MN, ML, SQ, DQ
+    L, N, EXNL, MNL, MN, ML, SQ, DQ, BRK
   }
 
   private Character translateWordBoundary(String mapping) throws IllegalArgumentException {
@@ -95,6 +95,8 @@ public class ExtensibleStandardTokenizerFactory extends AbstractTokenizerFactory
         return ExtensibleStandardTokenizerImpl.WB_CLASS_SINGLE_QUOTE;
       case DQ:
         return ExtensibleStandardTokenizerImpl.WB_CLASS_DOUBLE_QUOTE;
+      case BRK:
+        return ExtensibleStandardTokenizerImpl.WB_CLASS_BREAK;
       default:
         throw new IllegalArgumentException();
     }

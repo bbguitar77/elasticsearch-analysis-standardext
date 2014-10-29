@@ -76,6 +76,7 @@ The supported word-boundary property types are:
  * ML   -> Mid Letter (preserved between letters - e.g. ':')
  * SQ   -> Single-quote
  * DQ   -> Double-quote
+ * BRK  -> Word break
 
 Author Information
 ==================
